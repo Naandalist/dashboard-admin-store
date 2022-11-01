@@ -54,7 +54,20 @@ module.exports = {
         { name: categoryName }
       );
 
-      console.log("category: ", category)
+      console.log("category: ", category);
+      res.redirect("/category");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  actionDelete: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const category = await Category.findOneAndRemove({ _id: id });
+
+      console.log("category delete: ", category);
       res.redirect("/category");
     } catch (err) {
       console.log(err);
