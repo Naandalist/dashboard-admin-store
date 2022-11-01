@@ -1,0 +1,35 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% for(let i=0; i<nominal.length; i++){ %>
+    <tr>
+      <td><%= i+1 %></td>
+      <!-- <td><%= JSON.stringify(nominal[i]) %></td> -->
+      <td><%= nominal[i].name %></td>
+      <td><%= nominal[i].qty %></td>
+      <td><%= nominal[i].price %></td>
+      <td>
+        <form action="/category/delete/<%= nominal[i].id %>?_method=DELETE" method="POST">
+          <a href="/category/update/<%= nominal[i]._id %>" class="btn btn-warning">
+            <i class="fas fa-pencil-alt"></i>
+            Update </a>
+          <button class="btn btn-danger">
+            <i class="fas fa-trash"></i>
+            Delete</button>
+        </form>
+      </td>
+    </tr>
+    <% } %>
+
+
+  </tbody>
+</table>
