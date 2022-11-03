@@ -9,7 +9,8 @@ const {
   actionCreate,
   viewUpdate,
   actionUpdate,
-  //   actionDelete,
+  actionDelete,
+  actionStatus,
 } = require("./controller");
 
 router.get("/", index);
@@ -20,12 +21,14 @@ router.post(
   actionCreate
 );
 router.get("/update/:id", viewUpdate);
+
 router.put(
   "/update/:id",
   multer({ dest: os.tmpdir() }).single("voucherImage"),
   actionUpdate
 );
+router.put("/status/:id", actionStatus);
+router.delete("/delete/:id", actionDelete);
 
-// router.delete("/delete/:id", actionDelete);
 
 module.exports = router;
