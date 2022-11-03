@@ -35,7 +35,7 @@
         <%}%>
         </td>
         <td>
-            <form style="display: inline-block">
+            <form action="/voucher/status/<%= voucher[i]._id %>?_method=PUT" method="POST" style="display: inline-block">
                 <button class="btn btn-primary btn-sm">
                     <i class="fas fa-toggle-on"></i>
                     <% if(voucher[i].status === "Y"){ %>
@@ -45,7 +45,7 @@
         <%}%>
                 </button>
             </form>
-          <form style="display: inline-block;" action="/voucher/delete/<%= voucher[i].id %>?_method=DELETE" method="POST">
+          <form style="display: inline-block;" action="/voucher/delete/<%= voucher[i]._id %>?_method=DELETE" method="POST">
         <a href="/voucher/update/<%= voucher[i]._id %>" class="btn btn-warning btn-sm">
           <i class="fas fa-pencil-alt"></i>
           Update </a>
