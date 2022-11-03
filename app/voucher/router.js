@@ -7,8 +7,8 @@ const {
   index,
   viewCreate,
   actionCreate,
-  //   viewUpdate,
-  //   actionUpdate,
+  viewUpdate,
+  actionUpdate,
   //   actionDelete,
 } = require("./controller");
 
@@ -19,8 +19,13 @@ router.post(
   multer({ dest: os.tmpdir() }).single("voucherImage"),
   actionCreate
 );
-// router.get("/update/:id", viewUpdate);
-// router.put("/update/:id", actionUpdate);
+router.get("/update/:id", viewUpdate);
+router.put(
+  "/update/:id",
+  multer({ dest: os.tmpdir() }).single("voucherImage"),
+  actionUpdate
+);
+
 // router.delete("/delete/:id", actionDelete);
 
 module.exports = router;
