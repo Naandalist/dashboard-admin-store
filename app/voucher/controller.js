@@ -241,7 +241,7 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      const voucher = await Voucher.findOne({ _id: id });
+      let voucher = await Voucher.findOne({ _id: id });
 
       let voucherStatus = voucher.status === "Y" ? "N" : "Y";
 
