@@ -53,7 +53,7 @@
                   <div class="select2-purple">
                     <select data-placeholder="Select nominal" class="form-control select2" multiple="multiple" style="width: 100%;" name="voucherNominals" required>
                       <% nominals.forEach(nominal=>{ %>
-                      <option value=<%= nominal._id %>><%= nominal.name %> <%= nominal.price %></option>
+                      <option value="<%= nominal._id %>" ><%= nominal.name %> <%= nominal.price %></option>
                       <% }) %>
                     </select>
                   </div>
