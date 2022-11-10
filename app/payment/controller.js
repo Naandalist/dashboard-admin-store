@@ -94,19 +94,45 @@ module.exports = {
       try {
         const { id } = req.params;
 
-        const nominal = await Nominal.findOneAndRemove({ _id: id });
+        const payment = await Payment.findOneAndRemove({ _id: id });
 
         req.flash(
           "alertMessage",
-          `Nominal with id ${id} is deleted successfully`
+          `payment with id ${id} is deleted successfully`
         );
         req.flash("alertStatus", "success");
 
-        res.redirect("/nominal");
+        res.redirect("/payment");
       } catch (err) {
         req.flash("alertMessage", err.message);
         req.flash("alertStatus", "danger");
-        res.redirect("/nominal");
+        res.redirect("/payment");
+      }
+    },
+    actionStatus: async (req, res) => {
+      try {
+        const { id } = req.params;
+  
+        let payment = await Payment.findOne({ _id: id });
+  
+        let paymentStatus = payment.status === "Y" ? "N" : "Y";
+  
+        payment = await Payment.findOneAndUpdate(
+          { _id: id },
+          { status: paymentStatus }
+        );
+  
+        req.flash(
+          "alertMessage",
+          `Status payment with id ${id} is updated`
+        );
+        req.flash("alertStatus", "success");
+  
+        res.redirect("/payment");
+      } catch (err) {
+        req.flash("alertMessage", err.message);
+        req.flash("alertStatus", "danger");
+        res.redirect("/payment");
       }
     },
 };
