@@ -1,0 +1,58 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Type</th>
+        <th>Bank</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+      <% for(let i=0; i<payment.length; i++){ %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= payment[i].type %></td>
+        <td>
+          <% payment[i].banks.forEach(bank=>{ %>
+          <span class="badge badge-info">
+            <%= bank.ownerName %> - <%= bank.bankName %> (<%= bank.accountNumber %>)
+          </span>
+          <% })%>
+        </td>
+        <td>
+          <% if (payment[i].status === "Y"){ %>
+          <span class="badge badge-success">
+            Active
+          </span>
+          <% }else {%>
+          <span class="badge badge-danger">
+            No active
+          </span>
+          <%}%>
+          </td>
+          <td>
+              <form action="/payment/status/<%= payment[i]._id %>?_method=PUT" method="POST" style="display: inline-block">
+                  <button class="btn btn-primary btn-sm">
+                      <i class="fas fa-toggle-on"></i>
+                      <% if(payment[i].status === "Y"){ %>
+          Disable
+          <%} else{%>
+          Activate
+          <%}%>
+                  </button>
+              </form>
+            <form style="display: inline-block;" action="/payment/delete/<%= payment[i]._id %>?_method=DELETE" method="POST">
+          <a href="/payment/update/<%= payment[i]._id %>" class="btn btn-warning btn-sm">
+            <i class="fas fa-pencil-alt"></i>
+            Update </a>
+          <button class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i>
+            Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
