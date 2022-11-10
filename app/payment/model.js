@@ -5,7 +5,7 @@ let paymentSchema = mongoose.Schema({
     type: String,
     default: [true, "Payment type is required!"],
   },
-  satus: {
+  status: {
     type: String,
     enum: ["Y", "N"],
     default: "Y",
