@@ -17,9 +17,12 @@ module.exports = {
       .populate("category")
       .populate("nominals");
     try {
+      const { name } = req.session.user;
       res.render("admin/voucher/view_voucher", {
         voucher,
         alert,
+        name,
+        title: "Voucher",
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
@@ -32,7 +35,13 @@ module.exports = {
       const categories = await Category.find();
       const nominals = await Nominal.find();
 
-      res.render("admin/voucher/create", { categories, nominals });
+      const { name } = req.session.user;
+      res.render("admin/voucher/create", {
+        categories,
+        nominals,
+        name,
+        title: "Voucher",
+      });
     } catch (err) {
       req.flash("alertMessage", err.message);
       req.flash("alertStatus", "danger");
@@ -94,9 +103,7 @@ module.exports = {
           nominals: voucherNominals,
         });
 
-        // await voucher.save();
-
-        console.log("voucher will send>>>", voucher);
+        await voucher.save();
 
         req.flash("alertMessage", "add new game voucher is successfull");
         req.flash("alertStatus", "success");
@@ -120,10 +127,13 @@ module.exports = {
         .populate("category")
         .populate("nominals");
 
+      const { name } = req.session.user;
       res.render("admin/voucher/update", {
         voucher,
         categories,
         nominals,
+        name,
+        title: "Voucher",
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
@@ -250,10 +260,7 @@ module.exports = {
         { status: voucherStatus }
       );
 
-      req.flash(
-        "alertMessage",
-        `Status voucher with id ${id} is updated`
-      );
+      req.flash("alertMessage", `Status voucher with id ${id} is updated`);
       req.flash("alertStatus", "success");
 
       res.redirect("/voucher");

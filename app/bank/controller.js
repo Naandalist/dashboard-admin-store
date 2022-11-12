@@ -8,11 +8,13 @@ module.exports = {
     const alert = { message: alertMessage, status: alertStatus };
 
     const bank = await Bank.find();
-    console.log("bank: ", bank);
+    const { name } = req.session.user;
     try {
       res.render("admin/bank/view_bank", {
         bank,
         alert,
+        name,
+        title: "Bank",
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
@@ -22,7 +24,8 @@ module.exports = {
   },
   viewCreate: async (req, res) => {
     try {
-      res.render("admin/bank/create", {});
+      const { name } = req.session.user;
+      res.render("admin/bank/create", { name, title: "Bank" });
     } catch (err) {
       req.flash("alertMessage", err.message);
       req.flash("alertStatus", "danger");
@@ -49,9 +52,12 @@ module.exports = {
     try {
       const { id } = req.params;
       const bank = await Bank.findOne({ _id: id });
+      const { name } = req.session.user;
 
       res.render("admin/bank/update", {
         bank,
+        name,
+        title: "Bank",
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
@@ -79,23 +85,20 @@ module.exports = {
     }
   },
 
-    actionDelete: async (req, res) => {
-      try {
-        const { id } = req.params;
+  actionDelete: async (req, res) => {
+    try {
+      const { id } = req.params;
 
-        const bank = await Bank.findOneAndRemove({ _id: id });
+      const bank = await Bank.findOneAndRemove({ _id: id });
 
-        req.flash(
-          "alertMessage",
-          `Bank with id ${id} is deleted successfully`
-        );
-        req.flash("alertStatus", "success");
+      req.flash("alertMessage", `Bank with id ${id} is deleted successfully`);
+      req.flash("alertStatus", "success");
 
-        res.redirect("/bank");
-      } catch (err) {
-        req.flash("alertMessage", err.message);
-        req.flash("alertStatus", "danger");
-        res.redirect("/bank");
-      }
-    },
+      res.redirect("/bank");
+    } catch (err) {
+      req.flash("alertMessage", err.message);
+      req.flash("alertStatus", "danger");
+      res.redirect("/bank");
+    }
+  },
 };
