@@ -14,6 +14,7 @@ module.exports = {
       } else {
         res.render("admin/users/view_signin", {
           alert,
+          title: "Sign In",
         });
       }
     } catch (err) {
@@ -65,5 +66,9 @@ module.exports = {
       req.flash("alert status", "danger");
       res.redirect("/");
     }
+  },
+  actionLogOut: async (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
   },
 };
