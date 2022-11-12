@@ -54,12 +54,12 @@ module.exports = {
     try {
       const { id } = req.params;
       const category = await Category.findOne({ _id: id });
-      const {name } =req.session.user
+      const { name } = req.session.user;
 
       res.render("admin/category/update", {
         category,
         name,
-        title: "Category"
+        title: "Category",
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
