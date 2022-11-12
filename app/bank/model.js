@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
 
-let bankSchema = mongoose.Schema({
-  ownerName: {
-    type: String,
-    require: [true, "Owner name is required!"],
+let bankSchema = mongoose.Schema(
+  {
+    ownerName: {
+      type: String,
+      require: [true, "Owner name is required!"],
+    },
+    bankName: {
+      type: String,
+      require: [true, "Bank name is required!"],
+    },
+    accountNumber: {
+      type: Number,
+      require: [true, "Account number is required!"],
+    },
   },
-  bankName: {
-    type: String,
-    require: [true, "Bank name is required!"],
-  },
-  accountNumber: {
-    type: Number,
-    require: [true, "Account number is required!"],
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Bank", bankSchema);
