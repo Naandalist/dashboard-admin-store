@@ -1,0 +1,68 @@
+<table id="table-transaction" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Game Name</th>
+      <th>Item</th>
+      <th>Total Price</th>
+      <th>Status</th>
+      <th>Player name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% for(let i=0; i<transaction.length; i++){ %>
+    <tr>
+      <td>
+        <%= i+1 %>
+      </td>
+      <td>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <img width="48px" height="48px" src="http://localhost:3000/uploads/<%= transaction[i].historyVoucherTopup.gameThumbnail %>" alt="icon-game">
+          </li>
+        </ul>
+        <%= transaction[i]?.historyVoucherTopup?.gameName %> (<%= transaction[i]?.historyVoucherTopup?.gameCategory %>)
+      </td>
+      <td>
+        <%= transaction[i].historyVoucherTopup?.coinQty %>
+        <%= transaction[i].historyVoucherTopup?.coinName %>
+      </td>
+      <td>
+        <%= transaction[i]?.value %>
+      </td>
+      <td>
+        <% if (transaction[i].status==="pending" ){ %>
+        <span class="badge badge-warning">
+          Pending
+        </span>
+        <% }else if(transaction[i].status==="success" ) {%>
+        <span class="badge badge-success">
+          Success
+        </span>
+        <%}else{%>
+        <span class="badge badge-danger">
+          Failed
+        </span>
+        <%}%>
+        </td>
+        <td>
+        <%=transaction[i]?.player?.name ?? "-" %>
+      </td>
+      <td>
+        <form style="display: inline-block;" action="/transaction/status/<%= transaction[i]._id %>?status=success&_method=PUT" method="POST">
+          <button class="btn btn-primary btn-sm <%if (transaction[i].status !== "pending"){%> disabled <%}%>">
+            <i class="fas fa-check"></i>
+            Accept</button>
+        </form>
+        <form style="display: inline-block;" action="/transaction/status/<%= transaction[i]._id %>?status=failed&_method=PUT" method="POST">
+          <button class="btn btn-danger btn-sm <%if (transaction[i].status !== "pending"){%> disabled <%}%>">
+            <i class="fas fa-times-circle"></i>
+            Decline</button>
+        </form>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
