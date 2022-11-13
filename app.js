@@ -15,7 +15,10 @@ const bankRouter = require("./app/bank/router");
 const paymentRouter = require("./app/payment/router");
 const userRouter = require("./app/users/router");
 const transactionRouter = require("./app/transaction/router");
+
+// api routing
 const playerRouter = require("./app/player/router");
+const authrRouter = require("./app/auth/router");
 
 const app = express();
 const apiUrl = `/api/v1`;
@@ -58,6 +61,7 @@ app.use("/transaction", transactionRouter);
 
 // API
 app.use(`${apiUrl}/players`, playerRouter);
+app.use(`${apiUrl}/auth`, authrRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
