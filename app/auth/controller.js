@@ -25,7 +25,7 @@ module.exports = {
       if (err && err.name === "ValidationError") {
         return res
           .status(422)
-          .json({ error: 1, message: err.message, fields: err.error });
+          .json({ error: 1, message: err.message, fields: err.errors });
       }
       next(err);
     }
