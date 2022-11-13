@@ -14,7 +14,14 @@
     <% for(let i=0; i<voucher.length; i++){ %>
     <tr>
       <td><%= i+1 %></td>
-      <td><%= voucher[i].name %></td>
+      <td>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <img width="48px" height="48px" src="http://localhost:3000/uploads/<%= voucher[i].thumbnail %>" alt="icon-game">
+          </li>
+        </ul>
+        <%= voucher[i].name %>
+      </td>
       <td><%= voucher[i]?.category?.name ?? "-" %></td>
       <td>
         <% voucher[i].nominals.forEach(nominal=>{ %>
