@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+// const HASH_ROUND = 10;
 
 let playerSchema = mongoose.Schema(
   {
@@ -52,5 +55,11 @@ let playerSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+//replace string password with hashing before save into DB
+playerSchema.pre("save", function (next) {
+  this.password = bcrypt.hashSync(this.password, process.env.HASH_ROUND);
+  next();
+});
 
 module.exports = mongoose.model("Player", playerSchema);
