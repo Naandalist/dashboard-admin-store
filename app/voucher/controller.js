@@ -81,8 +81,6 @@ module.exports = {
               thumbnail: fileName,
             });
 
-            console.log("voucher will send>>>", voucher);
-
             await voucher.save();
 
             req.flash("alertMessage", "add new game voucher is successfull");
