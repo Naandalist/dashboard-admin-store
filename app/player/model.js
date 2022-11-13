@@ -62,4 +62,18 @@ playerSchema.pre("save", function (next) {
   next();
 });
 
+//validate email to prevent duplicate
+playerSchema.path("email").validate(
+  async function (value) {
+    try {
+      const count = await this.model("Player").countDocuments({ email: value });
+
+      return count < 1 ? true : false;
+    } catch (error) {
+      throw error;
+    }
+  },
+  (attr) => `${attr.value} has registered!`
+);
+
 module.exports = mongoose.model("Player", playerSchema);
