@@ -79,6 +79,7 @@ module.exports = {
               category: gameCategory,
               nominals: voucherNominals,
               thumbnail: fileName,
+              user: req.session.user.id,
             });
 
             await voucher.save();
