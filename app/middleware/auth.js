@@ -1,3 +1,7 @@
+const jwt = require("jsonwebtoken");
+const config = require("../../config");
+const Player = require("../player/model");
+
 module.exports = {
   isLoginAdmin: (req, res, next) => {
     if (req.session.user === null || req.session.user === undefined) {
@@ -9,6 +13,25 @@ module.exports = {
       res.redirect("/");
     } else {
       next();
+    }
+  },
+  isLoginPlayer: async (req, res, next) => {
+    try {
+      const authorization = req.headers.authorization;
+      const token = authorization.replace("Bearer ", "");
+
+      const data = jwt.verify(token, config.jwtKey);
+      const player = await Player.findOne({ _id: data.player.id });
+
+      if (!player || player === null) throw new Error();
+
+      req.player = player;
+      req.token = token;
+      next();
+
+      // res.status(201).json({ token, data, player });
+    } catch (error) {
+      res.status(401).json({ error: error.message || "No authorize" });
     }
   },
 };
