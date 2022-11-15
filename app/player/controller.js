@@ -6,6 +6,10 @@ const Payment = require("../payment/model");
 const Bank = require("../bank/model");
 const Transaction = require("../transaction/model");
 
+const fs = require("fs");
+const path = require("path");
+const config = require("../../config");
+
 module.exports = {
   landingPage: async (req, res) => {
     try {
@@ -223,6 +227,80 @@ module.exports = {
   profile: async (req, res) => {
     try {
       res.status(200).json({ data: req.player });
+    } catch (error) {
+      res.status(500).json({ error: error.message || "Internal server error" });
+    }
+  },
+  updateProfile: async (req, res, next) => {
+    try {
+      const { name = "", phoneNumber = "" } = req.body;
+
+      if (req.file) {
+        let tempPath = req.file.path;
+
+        let originalExt =
+          req.file.originalname.split(".")[
+            req.file.originalname.split(".").length - 1
+          ];
+
+        let fileName = req.file.filename + "." + originalExt;
+
+        let targetPath = path.resolve(
+          config.rootPath,
+          `public/uploads/${fileName}`
+        );
+
+        const src = fs.createReadStream(tempPath);
+        const dest = fs.createWriteStream(targetPath);
+
+        src.pipe(dest);
+
+        src.on("end", async () => {
+          let currentImage = `${config.rootPath}/public/uploads/${req.player.avatar}`;
+
+          if (fs.existsSync(currentImage)) {
+            fs.unlinkSync(currentImage);
+          }
+
+          const updatedPlayer = await Player.findOneAndUpdate(
+            { _id: req.player._id },
+            {
+              name: name,
+              phoneNumber: phoneNumber,
+              avatar: fileName,
+            },
+            { new: true, runValidators: true }
+          );
+
+          res.status(201).json({
+            data: {
+              id: updatedPlayer._id,
+              name: updatedPlayer.name,
+              phoneNumber: updatedPlayer.phoneNumber,
+              avatar: updatedPlayer.avatar,
+            },
+          });
+        });
+      } else {
+        const payload = {};
+
+        if (name.length) payload.name = name;
+        if (phoneNumber.length) payload.phoneNumber = phoneNumber;
+
+        const player = await Player.findOneAndUpdate(
+          { _id: req.player._id },
+          payload,
+          { new: true, runValidators: true }
+        );
+        res.status(201).json({
+          data: {
+            id: player._id,
+            name: player.name,
+            phoneNumber: player.phoneNumber,
+            avatar: player.avatar,
+          },
+        });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message || "Internal server error" });
     }
