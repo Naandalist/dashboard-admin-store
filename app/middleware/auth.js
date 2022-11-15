@@ -21,7 +21,9 @@ module.exports = {
       const token = authorization.replace("Bearer ", "");
 
       const data = jwt.verify(token, config.jwtKey);
-      const player = await Player.findOne({ _id: data.player.id });
+      const player = await Player.findOne({ _id: data.player.id }).select(
+        "_id email name username phoneNumber role avatar createdAt"
+      );
 
       if (!player || player === null) throw new Error();
 
