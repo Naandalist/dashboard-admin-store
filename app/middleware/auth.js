@@ -29,7 +29,7 @@ module.exports = {
       req.token = token;
       next();
     } catch (error) {
-      res.status(401).json({ error: error.message || "No authorize" });
+      res.status(401).json({ error: "No authorized access" });
     }
   },
 };
