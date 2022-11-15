@@ -220,4 +220,11 @@ module.exports = {
       res.status(500).json({ error: error.message || "Internal server error" });
     }
   },
+  profile: async (req, res) => {
+    try {
+      res.status(200).json({ data: req.player });
+    } catch (error) {
+      res.status(500).json({ error: error.message || "Internal server error" });
+    }
+  },
 };
