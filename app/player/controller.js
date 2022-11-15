@@ -128,4 +128,45 @@ module.exports = {
       res.status(500).json({ error: error.message || "Internal server error" });
     }
   },
+  historyTransaction: async (req, res) => {
+    try {
+      const { status = "" } = req.query;
+      let criteria = {};
+
+      if (status.length) {
+        criteria = {
+          ...criteria,
+          status: { $regex: `${status}`, $options: `i` },
+        };
+      }
+
+      //get all history will filter by player id
+      if (req.player._id) {
+        criteria = {
+          ...criteria,
+          player: req.player._id,
+        };
+      }
+
+      const history = await Transaction.find(criteria);
+
+      let totalValue = await Transaction.aggregate([
+        { $match: criteria },
+        {
+          $group: {
+            _id: null,
+            value: { $sum: "$value" },
+          },
+        },
+      ]);
+
+      res.status(200).json({
+        dataLength: history.length,
+        data: history,
+        totalValue: totalValue.length ? totalValue[0].value : 0,
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message || "Internal server error" });
+    }
+  },
 };

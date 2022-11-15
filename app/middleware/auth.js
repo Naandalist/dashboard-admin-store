@@ -28,8 +28,6 @@ module.exports = {
       req.player = player;
       req.token = token;
       next();
-
-      // res.status(201).json({ token, data, player });
     } catch (error) {
       res.status(401).json({ error: error.message || "No authorize" });
     }

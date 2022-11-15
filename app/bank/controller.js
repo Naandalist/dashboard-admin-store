@@ -8,7 +8,7 @@ module.exports = {
     const alert = { message: alertMessage, status: alertStatus };
 
     const bank = await Bank.find();
-    const { name } = req.session.user;
+    const { name } = req.session?.user;
     try {
       res.render("admin/bank/view_bank", {
         bank,
@@ -24,7 +24,7 @@ module.exports = {
   },
   viewCreate: async (req, res) => {
     try {
-      const { name } = req.session.user;
+      const { name } = req.session?.user;
       res.render("admin/bank/create", { name, title: "Bank" });
     } catch (err) {
       req.flash("alertMessage", err.message);
@@ -52,7 +52,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const bank = await Bank.findOne({ _id: id });
-      const { name } = req.session.user;
+      const { name } = req.session?.user;
 
       res.render("admin/bank/update", {
         bank,
