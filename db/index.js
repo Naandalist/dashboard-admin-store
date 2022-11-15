@@ -16,7 +16,7 @@ monggose.connect(
     }
   }
 );
-Í
+
 const db = monggose.connection;
 
 module.exports = db;
