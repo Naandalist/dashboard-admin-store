@@ -1,4 +1,5 @@
 const Transaction = require("./model");
+const config = require("../../config");
 
 module.exports = {
   index: async (req, res) => {
@@ -18,6 +19,7 @@ module.exports = {
         alert,
         name: name,
         title: "Transaction",
+        appUrl: config.appUrl,
       });
     } catch (err) {
       req.flash("alertMessage", err.message);

@@ -23,6 +23,7 @@ module.exports = {
         alert,
         name,
         title: "Voucher",
+        appUrl: config.appUrl,
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
@@ -133,6 +134,7 @@ module.exports = {
         nominals,
         name,
         title: "Voucher",
+        appUrl: config.appUrl,
       });
     } catch (err) {
       req.flash("alertMessage", err.message);
