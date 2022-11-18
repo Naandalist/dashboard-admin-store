@@ -34,14 +34,16 @@ module.exports = {
         .populate("nominals")
         .populate("user", "_id name phoneNumber");
 
-      console.log("data voucher: ", voucher);
-
+      const payment = await Payment.find().populate("banks");
       if (!voucher) {
-        return res.status(404).json({ message: "Data is not found.!" });
+        return res.status(404).json({ message: "Data voucher is not found.!" });
+      }
+      if (!payment) {
+        return res.status(404).json({ message: "Data payment is not found.!" });
       }
 
       res.status(200).json({
-        data: voucher,
+        data: { voucher, payment },
       });
     } catch (error) {
       res
