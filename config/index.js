@@ -8,5 +8,6 @@ module.exports = {
   serviceName: process.env.SERVICE_NAME,
   urlDb: process.env.MONGO_URL,
   jwtKey: process.env.SECRET,
-  urlApp: process.env.FRONT_URL
+  urlApp: process.env.FRONT_URL,
+  hashRound: process.env.HASH_ROUND
 };
